@@ -1,0 +1,71 @@
+- hosts: namenode, datanode
+  tasks:
+          - name: "Copying hadoop in both name and datanode" 
+            copy:
+                  src: "/root/hadoop-1.2.1-1.x86_64.rpm"
+                  dest: "/root/hadoop.rpm"
+
+          - name: " Copying jdk software"
+            copy:
+                    src: "/root/jdk-8u171-linux-x64.rpm"
+                    dest: "/root/jdk.rpm"
+
+          - name: " Installing jdk software"
+            package:
+                     name: "/root/jdk.rpm"
+                     state: present
+                     disable_gpg_check: yes
+
+          - name: "Installing hadoop software"
+            command: "rpm -ivh /root/hadoop.rpm --force"
+
+- hosts: namenode
+  tasks:
+          - template:
+                  src: "hdfs-site_name.xml"
+                  dest: "/etc/hadoop/hdfs-site.xml"
+
+          - template:
+                  src: "core-site_name.xml"
+                  dest: "/etc/hadoop/core-site.xml"
+
+          - name: "Creating directory for namenode"
+            file:
+                    path: "/nn"
+                    state: directory
+
+          - name: "Formatting namenode directory"
+            shell: "echo Y | hadoop namenode -format"
+
+          - name: "Starting the namenode services"
+            command: "hadoop-daemon.sh start namenode"
+
+          - name: "Enabling the firewall"
+            firewalld:
+                    port: "9001/tcp"
+                    state: enabled
+                    immediate: yes
+
+- hosts: datanode
+  tasks:
+          - template:
+                  src: "hdfs-site_data.xml"
+                  dest: "/etc/hadoop/hdfs-site.xml"
+
+          - template:
+                  src: "core-site_data.xml"
+                  dest: "/etc/hadoop/core-site.xml"
+
+          - name: "Creating directory for datanode"
+            file:
+                    path: "/data"
+                    state: directory
+
+          - name: "Starting the datanode services"
+            command: "hadoop-daemon.sh start datanode"
+            
+          - name: "Enabling the firewall"
+            firewalld:
+                    port: "9001/tcp"
+                    state: enabled
+                    immediate: yes

@@ -1,0 +1,45 @@
+- hosts: myweb
+  vars_files:
+          - var.yml
+  tasks:
+          - package:
+                  name: "httpd"
+
+          - package:
+                  name: "php"
+
+          - copy:
+                  dest: "/var/www/html/index.html"
+                  src: "index.html"
+
+          - service:
+                  name: "httpd"
+                  state: restarted
+          
+          - firewalld:
+                  port: "{{ port_web }}/tcp"
+                  state: enabled
+                  permanent: yes
+                  immediate: yes
+
+- hosts: localhost
+  vars_files:
+          - var.yml
+  tasks:
+          - package:
+                  name: "haproxy"
+
+          - template:
+                  dest: "/etc/haproxy/haproxy.cfg"
+                  src: "haproxy.cfg.j2"
+
+          - service:
+                  name: "haproxy"
+                  state: restarted
+
+          - firewalld:
+                  port: "{{ port_lb }}/tcp"
+                  state: enabled
+                  permanent: yes
+                  immediate: yes
+

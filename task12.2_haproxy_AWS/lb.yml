@@ -1,0 +1,32 @@
+- hosts: my_backend_server
+  vars_files:
+          - var.yml
+  tasks:
+          - package:
+                  name: "httpd"
+
+          - package:
+                  name: "php"
+
+          - copy:
+                  dest: "/var/www/html/index.php"
+                  src: "index.php"
+
+          - service:
+                  name: "httpd"
+                  state: restarted
+
+- hosts: my_load_balancer
+  vars_files:
+          - var.yml
+  tasks:
+          - package:
+                  name: "haproxy"
+
+          - template:
+                  dest: "/etc/haproxy/haproxy.cfg"
+                  src: "haproxy.cfg.j2"
+
+          - service:
+                  name: "haproxy"
+                  state: restarted

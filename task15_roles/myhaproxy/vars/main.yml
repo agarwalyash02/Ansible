@@ -1,0 +1,4 @@
+---
+# vars file for myhaproxy
+port_web: "80"
+port_lb: "8080"

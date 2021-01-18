@@ -1,0 +1,17 @@
+---
+# tasks file for myhaproxy
+
+- name: Installing the Haproxy software
+  package:
+        name: "haproxy"
+
+- name: Copying the configuration files
+  template:
+        dest: "/etc/haproxy/haproxy.cfg"
+        src: "haproxy.cfg.j2"
+
+- name: Starting the Haproxy services
+  service:
+        name: "haproxy"
+        state: restarted
+

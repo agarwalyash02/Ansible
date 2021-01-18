@@ -1,0 +1,16 @@
+---
+# tasks file for mywebserver
+
+- name: Installing httpd software
+  package:
+          name: "httpd"
+
+- name: Copying the html file from CN to MN
+  copy:
+          dest: "/var/www/html/index.html"
+          src: "index.html"
+
+- name: Starting the httpd services
+  service:
+          name: "httpd"
+          state: restarted

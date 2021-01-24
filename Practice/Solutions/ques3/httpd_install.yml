@@ -1,0 +1,27 @@
+- hosts: node2
+  tasks:
+          - name: Installing httpd software
+            package:
+                    name: "httpd"
+                    state: present
+
+          - name: Copying file from CN to TN
+            template:
+                    src: index.html.j2
+                    dest: /var/www/html/index.html
+
+          - name: Starting the httpd services
+            service:
+                    name: httpd
+                    state: started
+
+          - name: Enabling the httpd services
+            service:
+                    name: httpd
+                    enabled: yes            
+
+          - name: "Enabling firewall for port 80"
+            firewalld:
+                    port: "80/tcp"
+                    state: enabled
+                    immediate: yes

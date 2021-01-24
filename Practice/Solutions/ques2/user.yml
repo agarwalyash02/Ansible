@@ -1,0 +1,30 @@
+- hosts: node1
+  vars_files:
+          - secret.yml
+  tasks:
+          - name: Creating the groups
+            group:
+                    name: "{{ item }}"
+                    state: present
+            loop:
+                    - manager
+                    - developer
+
+          - name: Creating users for manager group
+            user:
+                    name: "{{ item }}"
+                    state: present
+                    group: manager
+                    password: "{{ passwd | password_hash('sha512') }}"
+            loop:
+                    - harry
+                    - eric
+
+          - name: Creating user for developer group
+            user:
+                    name: "{{ item }}"
+                    state: present
+                    group: developer
+                    password: "{{ passwd | password_hash('sha512') }}"
+            loop:
+                    - natasha

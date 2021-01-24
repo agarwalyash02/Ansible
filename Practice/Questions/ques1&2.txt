@@ -1,0 +1,18 @@
+#1 Install the packages using different approaches as roles or variables or simple loop or anything And discuss or ask which one should use,
+	- net-tools
+	- python3
+	- firefox
+	- vlc
+	- vsftpd
+
+#2 Create the following users and groups on node1.lw.com having password “redhat” store in the ansible vault named secret.yml with the passphrase “secret”
+The ansible vault passphrase should be stored at /root/.secret file
+Users:
+	- harry
+	- eric
+	- natasha
+Group:
+	- manager
+	- developer
+
+User harry and eric are part of manager group and natasha is part of developer group

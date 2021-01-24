@@ -1,0 +1,7 @@
+- hosts: nodes
+  tasks:
+          - name: Adding their system info in thier local file
+            template:
+                    src: system_info.j2
+                    dest: /root/statsinfo
+

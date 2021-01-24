@@ -1,0 +1,13 @@
+- hosts: nodes
+
+  vars:
+        - soft:
+                - "net-tools"
+                - "python3"
+                - "vsftpd"
+
+
+  tasks:
+         - package:
+                 name: "{{ soft }}"
+                 state: present

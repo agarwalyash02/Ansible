@@ -1,0 +1,2 @@
+package_name: apache2
+document_root_location: /var/www/html/

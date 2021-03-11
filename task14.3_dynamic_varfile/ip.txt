@@ -1,0 +1,2 @@
+[dynamic_server]
+192.168.0.105 ansible_user=root ansible_ssh_pass=012345 ansible_connection=ssh
